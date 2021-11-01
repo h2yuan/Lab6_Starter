@@ -158,24 +158,21 @@ class RecipeCard extends HTMLElement {
       tempDiv.appendChild(tempRateImage);
       tempDiv.appendChild(tempReviewSpan);
       card.appendChild(tempDiv);
-
-      var tempTime = document.createElement('time');
-      var theTime = searchForKey(data, 'totalTime');
-      tempTime.innerHTML = convertTime(theTime)
-      card.appendChild(tempTime);
-
-      var tempIngredients = document.createElement('p');
-      tempIngredients.setAttribute('class', 'ingredients');
-      var theIngredients = searchForKey(data, 'recipeIngredient');
-      tempIngredients.innerHTML = createIngredientList(theIngredients);
-      card.appendChild(tempIngredients);
-
-      this.shadowRoot.appendChild(styleElem);
-      this.shadowRoot.appendChild(card);
-  
     }
 
+    var tempTime = document.createElement('time');
+    var theTime = searchForKey(data, 'totalTime');
+    tempTime.innerHTML = convertTime(theTime)
+    card.appendChild(tempTime);
 
+    var tempIngredients = document.createElement('p');
+    tempIngredients.setAttribute('class', 'ingredients');
+    var theIngredients = searchForKey(data, 'recipeIngredient');
+    tempIngredients.innerHTML = createIngredientList(theIngredients);
+    card.appendChild(tempIngredients);
+
+    this.shadowRoot.appendChild(styleElem);
+    this.shadowRoot.appendChild(card);
 
   }
 }
