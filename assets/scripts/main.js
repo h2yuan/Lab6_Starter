@@ -55,7 +55,8 @@ async function fetchRecipes() {
           if (dataLength == recipes.length) {
             resolve(true);
           }
-        }).catch (err => reject(false))
+        })
+        .catch (err => reject(false))
     }
   });
 }
@@ -67,10 +68,9 @@ function createRecipeCards() {
   // three recipes we give you, you'll use the bindShowMore() function to
   // show any others you've added when the user clicks on the "Show more" button.
   for (let i = 0; i < 3; i++) {
-    var element = document.getElementsByClassName('main');
     let tempRecipe = document.createElement('recipe-card');
     tempRecipe.data = recipeData[i];
-    element.appendChild(tempRecipe);
+    document.querySelector('main').append(tempRecipe);
   }
   // Part 1 Expose - TODO
 }
