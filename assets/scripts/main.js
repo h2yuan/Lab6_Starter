@@ -5,7 +5,10 @@
 const recipes = [
   'https://introweb.tech/assets/json/ghostCookies.json',
   'https://introweb.tech/assets/json/birthdayCake.json',
-  'https://introweb.tech/assets/json/chocolateChip.json'
+  'https://introweb.tech/assets/json/chocolateChip.json',
+  'assets/recipes/one.json',
+  'assets/recipes/two.json',
+  'assets/recipes/three.json'
 ];
 
 // Once all of the recipes that were specified above have been fetched, their
@@ -68,8 +71,23 @@ function createRecipeCards() {
   // three recipes we give you, you'll use the bindShowMore() function to
   // show any others you've added when the user clicks on the "Show more" button.
   for (let i = 0; i < 3; i++) {
-    let tempFilter = document.querySelector('main');
-    let tempRecipe = document.createElement('recipe-card');
+    var tempFilter = document.querySelector('main');
+    var tempRecipe = document.createElement('recipe-card');
+    tempRecipe.data = recipeData[i];
+    tempFilter.append(tempRecipe);
+  }
+  // Part 1 Expose - TODO
+}
+
+function createOwnRecipeCards() {
+  // This function is called for you up above.
+  // From within this function you can access the recipe data from the JSON 
+  // files with the recipeData Object above. Make sure you only display the 
+  // three recipes we give you, you'll use the bindShowMore() function to
+  // show any others you've added when the user clicks on the "Show more" button.
+  for (let i = 3; i < 6; i++) {
+    var tempFilter = document.querySelector('main');
+    var tempRecipe = document.createElement('recipe-card');
     tempRecipe.data = recipeData[i];
     tempFilter.append(tempRecipe);
   }
@@ -83,6 +101,23 @@ function bindShowMore() {
   // that were fetched. You should fetch every recipe in the beginning, whether you
   // display it or not, so you don't need to fetch them again. Simply access them
   // in the recipeData object where you stored them/
+  var tempButton = document.querySelector('button');
+  var tempInt = 0;
+  tempButton.addEventListener('click', 
+  function(){
+    if (tempInt == 0) {
+      tempButton.innerHTML = 'Show less';
+      tempInt = 1;
+      createOwnRecipeCards();
+    } else {
+      var tempMain = document.querySelector('main');
+      tempMain.removeChild(tempMain.lastChild);
+      tempMain.removeChild(tempMain.lastChild);
+      tempMain.removeChild(tempMain.lastChild);
+      tempButton.innerHTML = 'Show more';
+      tempInt = 0;
+    }
+  });
 
   // Part 2 Explore - TODO
 }
