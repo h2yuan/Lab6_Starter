@@ -1,7 +1,8 @@
 class RecipeCard extends HTMLElement {
   constructor() {
     // Part 1 Expose - TODO
-
+    super();
+    var shadow = this.attachShadow({mode: 'open'});
     // You'll want to attach the shadow DOM here
   }
 
@@ -98,8 +99,82 @@ class RecipeCard extends HTMLElement {
 
     // Make sure to attach your root element and styles to the shadow DOM you
     // created in the constructor()
+    this.shadowRoot.appendChild(styleElem);
+    this.shadowRoot.appendChild(card);
 
     // Part 1 Expose - TODO
+    var tempImage = document.createElement('img');
+    tempImage.setAttribute('src', searchForKey(data, thumbnail));
+    tempImage.setAttribute('alt', 'Recipe Title');
+    card.appendChild(tempImage);
+
+    var tempTitle = document.createElement('p');
+    tempTitle.setAttribute('class', 'title');
+    var tempTitleLink = document.createElement('a');
+    tempTitleLink.innerHTML = searchForKey(data, 'headline');
+    tempTitleLink.setAttribute('href', getUrl(data));
+    tempTitle.appendChild(tempTitleLink);
+    card.appendChild(tempTitle);
+
+    var tempOrg = document.createElement('p');
+    tempOrg.innerHTML = getOrganization(data);
+    tempOrg.setAttribute('class', 'organization');
+    card.appendChild(tempOrg);
+
+    var tempDiv = document.createElement('div');
+    tempDiv.setAttribute('class', 'rating');
+    var tempRateSpan = document.createElement('span');
+    var tempReviewSpan = document.createElement('span');
+    var tempRateImage = document.createElement('img');
+    if ((searchForKey(data, 'ratingValue') == undefined) 
+    || (searchForKey(data, 'ratingValue') < 0) 
+    || (searchForKey(data, 'ratingValue') > 5)) {
+      tempRateSpan.innerHTML = 'No Reviews';
+      tempDiv.appendChild(tempRateSpan);
+      card.appendChild(tempDiv);
+    } else {
+      var theRate = searchForKey(data, 'ratingValue');
+      tempRateSpan.innerHTML = theRate;
+      tempReviewSpan.innerHTML = '(' + searchForKey(data, 'ratingCount') + ')';
+      var vagueRate = Math.round(theRate);
+      if (vagueRate == 0) {
+        tempRateImage.setAttribute('src', 'assets/images/icons/0-star.svg');
+        tempRateImage.setAttribute('alt', '0 stars');
+      } else if (vagueRate == 1) {
+        tempRateImage.setAttribute('src', 'assets/images/icons/1-star.svg');
+        tempRateImage.setAttribute('alt', '1 stars');
+      } else if (vagueRate == 2) {
+        tempRateImage.setAttribute('src', 'assets/images/icons/2-star.svg');
+        tempRateImage.setAttribute('alt', '2 stars');
+      } else if (vagueRate == 3) {
+        tempRateImage.setAttribute('src', 'assets/images/icons/3-star.svg');
+        tempRateImage.setAttribute('alt', '3 stars');
+      } else if (vagueRate == 4) {
+        tempRateImage.setAttribute('src', 'assets/images/icons/4-star.svg');
+        tempRateImage.setAttribute('alt', '4 stars');
+      } else {
+        tempRateImage.setAttribute('src', 'assets/images/icons/5-star.svg');
+        tempRateImage.setAttribute('alt', '5 stars');
+      }
+      tempDiv.appendChild(tempRateSpan);
+      tempDiv.appendChild(tempRateImage);
+      tempDiv.appendChild(tempReviewSpan);
+      card.appendChild(tempDiv);
+
+      var tempTime = document.createElement('time');
+      var theTime = searchForKey(data, 'totalTime');
+      tempTime.innerHTML = convertTime(theTime)
+      card.appendChild(tempTime);
+
+      var tempIngredients = document.createElement('p');
+      tempIngredients.setAttribute('class', 'ingredients');
+      var theIngredients = searchForKey(data, 'recipeIngredient');
+      tempIngredients.innerHTML = createIngredientList(theIngredients);
+      card.appendChild(tempIngredients);
+    }
+
+
+
   }
 }
 
